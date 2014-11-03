@@ -1,81 +1,66 @@
 'use strict';
 
-//// Declare app level module which depends on views, and components
-//angular.module('myApp', [
-//	'ngRoute',
-//	'myApp.view1',
-//	'myApp.view2',
-//	'myApp.version'
-//]).
-//config(['$routeProvider',
-//	function($routeProvider) {
-//		$routeProvider.otherwise({
-//			redirectTo: '/view1'
-//		});
-//	}
-//]);
+/* App Module */
 
 var app = angular.module('backendApp', [
+	'ui.router',
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
-	'ui.router',
 	'backendControllers'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 
-		$urlRouterProvider.otherwise('/');
+		$urlRouterProvider.otherwise('/login');
 
-		$stateProvider.
-		state('root', {
+		$stateProvider.state('site', {
 			'abstract': true,
 			resolve: {
-				authorize: ['authorization',
-					function(authorization) {
-						return authorization.authorize();
+				authorize: ['authService',
+					function() {
+						return authService.authorize();
 					}
 				]
 			}
 		}).
-		state('site', {
-			parent: 'root',
-			url: "/",
+		state('website', {
+			parent: 'site',
+			url: '/website',
 			data: {},
 			views: {
 				'content@': {
 					templateUrl: 'partials/site.html',
-					controller: 'siteCtrl'
+					controler: 'websiteCtrl'
 				}
 			}
 		}).
-		state('events', {
-			url: "/events",
-			templateUrl: 'partials/events.html',
-			controller: 'eventsCtrl',
-			data: {}
-		}).
-		state('social', {
-			url: "/social",
-			templateUrl: 'partials/social.html',
-			controller: 'socialCtrl',
-			data: {}
-		}).
 		state('login', {
-			url: "/login",
-			templateUrl: 'partials/login.html',
-			controller: 'loginCtrl',
-			data: {}
+			//parent: 'site',
+			url: '/login',
+			data: {},
+			views: {
+				'content@': {
+					templateUrl: 'partials/login.html',
+					controler: 'loginCtrl'
+				}
+			}
 		});
 	}
 ]);
 
-app.run(function($rootScope, $location, principal, authorization) {
-	var routespermission = ['/site', '/events', '/social']; //routes that require login
-	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
-		$rootScope.toState = toState;
-		$rootScope.toStateParams = toStateParams;
 
-		if (principal.isIdentityResolved()) authorization.authorize();
-	});
-});
+app.run(['$rootScope', '$state', '$stateParams', 'userService', 'sessionService', 'authService',
+	function($rootScope, $state, $stateParams, userService, sessionService, authService) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+			$rootScope.toState = toState;
+			$rootScope.toStateParams = toStateParams;
+			console.log('TEST!');
+			//event.preventDefault();
+			if (userService.isIdResolved()) {
+				console.log('User ID is resolved!');
+				authService.authorize();
+			}
+		});
+	}
+]);

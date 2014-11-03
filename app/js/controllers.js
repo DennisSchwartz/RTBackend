@@ -4,20 +4,28 @@
 
 var backendControllers = angular.module('backendControllers', []);
 
-backendControllers.controller('loginCtrl', ['$scope', '$state', 'principal', function($scope, $state, principal) {
-	$scope.login=function(user) {
-		principal.authenticate(user);
-	};
-}]);
+backendControllers.controller('websiteCtrl', ['$scope',
+	function($scope) {
+		$scope.title = "Website Pflege";
+	}
+]);
 
-backendControllers.controller('siteCtrl', ['$scope', '$http', function($scope, $http) {
-	$scope.title = "Website Pflege";
-}]);
+backendControllers.controller('loginCtrl', ['$scope', '$state', 'userService',
+	function($scope, $state, userService) {
+		$scope.login = function(data) {
+			//Perform user authentication
+			userService.login(data);
 
-backendControllers.controller('eventsCtrl', ['$scope', '$http', function($scope, $http) {
-	$scope.title = "Events";
-}]);
-
-backendControllers.controller('socialCtrl', ['$scope', '$http', function($scope, $http) {
-	$scope.title = "Social Media";
-}]);
+			//If saved, redirect to initially called route
+			if ($scope.returnToState) {
+				$q.when(angular.noop).then(function() {
+					$state.go($scope.returnToState.name, $scope.returnToStateParams);
+				});
+			} else {
+				$q.when(angular.noop).then(function() {
+					$state.go('website');
+				});
+			}
+		};
+	}
+]);
