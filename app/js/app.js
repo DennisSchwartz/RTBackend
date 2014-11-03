@@ -31,7 +31,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
 			views: {
 				'content@': {
 					templateUrl: 'partials/site.html',
-					controler: 'websiteCtrl'
+					controller: 'websiteCtrl'
 				}
 			}
 		}).
@@ -42,7 +42,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
 			views: {
 				'content@': {
 					templateUrl: 'partials/login.html',
-					controler: 'loginCtrl'
+					controller: 'loginCtrl'
 				}
 			}
 		});
@@ -56,7 +56,7 @@ app.run(['$rootScope', '$state', '$stateParams', 'userService', 'sessionService'
 			$rootScope.toState = toState;
 			$rootScope.toStateParams = toStateParams;
 			console.log('TEST!');
-			//event.preventDefault();
+			event.preventDefault();
 			if (userService.isIdResolved()) {
 				console.log('User ID is resolved!');
 				authService.authorize();

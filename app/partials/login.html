@@ -1,1 +1,16 @@
-<div class="wrap" login-directive="">Call directive login form</div>
+<div class="bs-example">
+    <div class="form-group">
+        <p>Welcome : <span>{{user.name}}</span>
+        </p>
+        <label label-default="" for="exampleInputName1">Name</label>
+        <input type="text" placeholder="Enter name" class="form-control"
+        ng-model="user.name" required="">
+    </div>
+    <div class="form-group">
+        <label label-default="" for="exampleInputPassword1">Password</label>
+        <input type="password" placeholder="Password" id="exampleInputPassword1"
+        class="form-control" ng-model="user.pass" required="">
+    </div>
+    <button class="btn btn-default" type="submit" ng-click="login(user)" ng-disabled="form1.$invalid">Submit</button>
+    <p>{{msgtxt}}</p>
+</div> 
