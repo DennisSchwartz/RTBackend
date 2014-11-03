@@ -24,27 +24,44 @@ var app = angular.module('backendApp', [
 
 app.config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
+
 		$urlRouterProvider.otherwise('/');
+
 		$stateProvider.
-			state('site', {
-			url: "/",
-			templateUrl: 'partials/site.html',
-			controller: 'siteCtrl',
-			data: {},
+		state('root', {
+			'abstract': true,
+			resolve: {
+				authorize: ['authorization',
+					function(authorization) {
+						return authorization.authorize();
+					}
+				]
+			}
 		}).
-			state('events', {
+		state('site', {
+			parent: 'root',
+			url: "/",
+			data: {},
+			views: {
+				'content@': {
+					templateUrl: 'partials/site.html',
+					controller: 'siteCtrl'
+				}
+			}
+		}).
+		state('events', {
 			url: "/events",
 			templateUrl: 'partials/events.html',
 			controller: 'eventsCtrl',
 			data: {}
 		}).
-			state('social', {
+		state('social', {
 			url: "/social",
 			templateUrl: 'partials/social.html',
 			controller: 'socialCtrl',
 			data: {}
 		}).
-			state('login', {
+		state('login', {
 			url: "/login",
 			templateUrl: 'partials/login.html',
 			controller: 'loginCtrl',
@@ -53,13 +70,12 @@ app.config(['$stateProvider', '$urlRouterProvider',
 	}
 ]);
 
-app.run(function($rootScope, $location, loginService) {
+app.run(function($rootScope, $location, principal, authorization) {
 	var routespermission = ['/site', '/events', '/social']; //routes that require login
-	$rootScope.$on('$stateChangeStart', function(event, next) {
-		if (true) {				//routespermission.indexOf(next) != -1) {
-			if (!loginService.islogged()) {
-				event.preventDefault();
-			}
-		}
+	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+		$rootScope.toState = toState;
+		$rootScope.toStateParams = toStateParams;
+
+		if (principal.isIdentityResolved()) authorization.authorize();
 	});
 });

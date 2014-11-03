@@ -4,9 +4,9 @@
 
 var backendControllers = angular.module('backendControllers', []);
 
-backendControllers.controller('loginCtrl', ['$scope', 'loginService', function($scope, loginService) {
-	$scope.login=function(data) {
-		loginService.login(data, $scope);
+backendControllers.controller('loginCtrl', ['$scope', '$state', 'principal', function($scope, $state, principal) {
+	$scope.login=function(user) {
+		principal.authenticate(user);
 	};
 }]);
 
