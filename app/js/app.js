@@ -1,66 +1,48 @@
 'use strict';
 
-/* App Module */
+/* App Modules */
 
-var app = angular.module('backendApp', [
-	'ui.router',
-	'ui.bootstrap',
-	'ui.bootstrap.tpls',
-	'backendControllers'
-]);
+angular.module('Authentication', []);
+angular.module('AdminSite', []);
 
-app.config(['$stateProvider', '$urlRouterProvider',
-	function($stateProvider, $urlRouterProvider) {
+angular.module('BackendApp', [
+	'Authentication',
+	'AdminSite',
+	'ngRoute',
+	'ngCookies'
+])
 
-		$urlRouterProvider.otherwise('/login');
+.config(['$routeProvider',
+	function($routeProvider) {
 
-		$stateProvider.state('site', {
-			'abstract': true,
-			resolve: {
-				authorize: ['authService',
-					function() {
-						return authService.authorize();
-					}
-				]
-			}
-		}).
-		state('website', {
-			parent: 'site',
-			url: '/website',
-			data: {},
-			views: {
-				'content@': {
-					templateUrl: 'partials/site.html',
-					controller: 'websiteCtrl'
-				}
-			}
-		}).
-		state('login', {
-			//parent: 'site',
-			url: '/login',
-			data: {},
-			views: {
-				'content@': {
-					templateUrl: 'partials/login.html',
-					controller: 'loginCtrl'
-				}
-			}
-		});
+		$routeProvider
+			.when('/login', {
+				templateUrl: 'js/modules/auth/partials/login.html',
+				controller: 'LoginCtrl',
+				hideMenus: true
+			})
+			.when('/', {
+				templateUrl: 'js/modules/admin/partials/site.html',
+				controller: 'SiteCtrl'
+			})
+			.otherwise({
+				redirectTo: '/login'
+			});
 	}
-]);
+])
 
-
-app.run(['$rootScope', '$state', '$stateParams', 'userService', 'sessionService', 'authService',
-	function($rootScope, $state, $stateParams, userService, sessionService, authService) {
-		$rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
-			$rootScope.toState = toState;
-			$rootScope.toStateParams = toStateParams;
-			console.log('TEST!');
-			event.preventDefault();
-			if (userService.isIdResolved()) {
-				console.log('User ID is resolved!');
-				authService.authorize();
+.run(['$rootScope', '$location', '$cookieStore', '$http',
+	function($rootScope, $location, $cookieStore, $http) {
+		//store users in rootScope (--> Safe?)
+		$rootScope.globals = $cookieStore.get('globals') || {};
+		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+			//If user not logged in redirect to login
+			if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+				$location.path('/login');
 			}
 		});
+		if ($rootScope.globals.currentUser) {
+			$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+		}
 	}
 ]);
