@@ -1,16 +1,11 @@
-<div class="bs-example">
+<form role="form">
     <div class="form-group">
-        <p>Welcome : <span>{{user.mail}}</span>
-        </p>
-        <label label-default="" for="exampleInputEmail1">Mail</label>
-        <input type="text" placeholder="Enter name" class="form-control"
-        ng-model="user.mail" required="">
+        <label for="inputEmail">Name</label>
+        <input type="text" class="form-control" id="inputEmail" placeholder="Enter name" ng-model="user.name" required="">
     </div>
     <div class="form-group">
-        <label label-default="" for="exampleInputPassword1">Password</label>
-        <input type="password" placeholder="Password" id="exampleInputPassword1"
-        class="form-control" ng-model="user.pass" required="">
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="user.pass" required="">
     </div>
-    <button class="btn btn-default" type="submit" ng-click="login(user)" ng-disabled="form1.$invalid">Submit</button>
-    <p>{{msgtxt}}</p>
-</div> 
+    <button type="submit" class="btn btn-success btn-xs" ng-click="login(user)" ng-disabled="form1.$invalid">Bla</button>  
+</form>

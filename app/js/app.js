@@ -8,36 +8,57 @@ angular.module('AdminSite', []);
 angular.module('BackendApp', [
 	'Authentication',
 	'AdminSite',
-	'ngRoute',
+	'ui.router',
 	'ngCookies'
 ])
 
-.config(['$routeProvider',
-	function($routeProvider) {
+.config(['$stateProvider', '$urlRouterProvider', 
+	function($stateProvider, $urlRouterProvider) {
 
-		$routeProvider
-			.when('/login', {
-				templateUrl: 'js/modules/auth/partials/login.html',
-				controller: 'LoginCtrl',
-				hideMenus: true
+		$urlRouterProvider.otherwise('/login');
+		$stateProvider
+			.state('common', {
+				templateUrl: 'partials/tpl/tpl.common.html',
+				controller: 'SiteCtrl',
+				abstract: true
 			})
-			.when('/', {
-				templateUrl: 'js/modules/admin/partials/site.html',
+			.state('login', {
+				url: '/login',
+				templateUrl: 'partials/modules/auth/login.html',
+				controller: 'LoginCtrl'
+			})
+			.state('home', {
+				url: '/',
+				parent: 'common',
+				templateUrl: 'partials/modules/admin/site.html',
 				controller: 'SiteCtrl'
 			})
-			.otherwise({
-				redirectTo: '/login'
+			.state('events', {
+				url: '/events',
+				parent: 'common',
+				templateUrl: 'partials/modules/admin/events.html',
+				controller: 'EventCtrl'
+			})
+			.state('events.gigs', {
+				url: '/gigs',
+				templateUrl: 'partials/modules/admin/events-gigs.html',
+				controller: 'EventCtrl'
+			})
+			.state('events.bands', {
+				url: '/bands',
+				templateUrl: 'partials/modules/admin/events-bands.html',
+				controller: 'EventCtrl'
 			});
 	}
 ])
 
-.run(['$rootScope', '$location', '$cookieStore', '$http',
-	function($rootScope, $location, $cookieStore, $http) {
+.run(['$rootScope', '$state', '$location', '$cookieStore', '$http',
+	function($rootScope, $state, $location, $cookieStore, $http) {
 		//store users in rootScope (--> Safe?)
-		$rootScope.globals = $cookieStore.get('globals') || {};
-		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+		$rootScope.globals = $cookieStore.get($http.defaults.headers.common.Authorization) || {};
+		$rootScope.$on('$stateChangeStart', function(event, next, current) {
 			//If user not logged in redirect to login
-			if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+			if ($location.path() !== '/login' && !$rootScope.globals) {
 				$location.path('/login');
 			}
 		});

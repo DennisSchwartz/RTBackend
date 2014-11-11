@@ -4,8 +4,8 @@
 
 angular.module('Authentication')
 
-.controller('LoginCtrl', ['$scope', '$rootScope', '$location', 'AuthenticationService',
-	function ($scope, $rootScope, $location, AuthenticationService) {
+.controller('LoginCtrl', ['$scope', '$state', '$rootScope', '$location', 'AuthenticationService',
+	function ($scope, $state, $rootScope, $location, AuthenticationService) {
 		//This resets the login status with every call of the controller:
 		//AuthenticationService.ClearCredentials();
 		console.log("LoginCtrl started!");
