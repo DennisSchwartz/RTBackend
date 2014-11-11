@@ -12,7 +12,7 @@ angular.module('BackendApp', [
 	'ngCookies'
 ])
 
-.config(['$stateProvider', '$urlRouterProvider', 
+.config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 
 		$urlRouterProvider.otherwise('/login');
@@ -33,21 +33,42 @@ angular.module('BackendApp', [
 				templateUrl: 'partials/modules/admin/site.html',
 				controller: 'SiteCtrl'
 			})
-			.state('events', {
-				url: '/events',
+			.state('booking', {
+				url: '/booking',
 				parent: 'common',
-				templateUrl: 'partials/modules/admin/events.html',
-				controller: 'EventCtrl'
+				templateUrl: 'partials/modules/admin/booking.html',
+				controller: 'BookingCtrl'
 			})
-			.state('events.gigs', {
+			.state('gigs', {
 				url: '/gigs',
-				templateUrl: 'partials/modules/admin/events-gigs.html',
-				controller: 'EventCtrl'
+				parent: 'common',
+				templateUrl: 'partials/modules/admin/gigs.html',
+				controller: 'GigCtrl'
 			})
-			.state('events.bands', {
+			.state('gigs.list', {
+				url: '/list',
+				parent: 'common',
+				views: {
+					'list@gigs': {
+						templateUrl: 'partials/modules/admin/gigs.list.html',
+						controller: 'GigCtrl'
+					}
+				}
+			})
+			.state('gigs.detail', {
+				url: '/{gigId:[0-9]{1,4}}',
+				parent: 'common',
+				views: {
+					'': {
+						templateUrl: 'partials/modules/admin/gigs.detail.html',
+						controller: 'GigCtrl'
+					}
+				}
+			})
+			.state('booking.bands', {
 				url: '/bands',
-				templateUrl: 'partials/modules/admin/events-bands.html',
-				controller: 'EventCtrl'
+				templateUrl: 'partials/modules/admin/booking-bands.html',
+				controller: 'BookingCtrl'
 			});
 	}
 ])

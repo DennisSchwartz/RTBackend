@@ -1,0 +1,32 @@
+<!--<div class="jumbotron text-center">
+<div class="row">
+	<div class="col-lg-2">
+		<section id="testMenu" class="well">
+			<h4>Menü</h4>
+			<ul class="nav nav-pills nav-stacked" role="tablist">
+    	    		<li><a ui-sref=".gigs">Gigs</a></li>
+    	    		<li><a ui-sref=".bands">Bands</a></li>    	    		
+    	    		<li><a href="#/login" ng-click="logout()">Logout</a></li>
+    			</ul>
+		</section>
+	</div> -->
+<div class="row">
+	<div class="col-lg-3">
+    <div class="pa-sidebar well well-small">
+      <ul class="nav nav-list nav-stacked">
+        <!--<li ng-class="{ active: $state.includes('gigs.list') }">--><a ui-sref=".list">All Gigs</a></li>
+    </div>
+  </div>
+	<div class="col-lg-3">
+		<section id="testContent" class="well">
+			<h4>Aktuelle ! Gigs:</h4>
+			<ul class="list-unstyled">
+    			<li class="well well-sm" ng-repeat="gig in gigs" i-sref-active="active">
+    			          <a ui-sref="gigs.detail({gigId:gig.id})">{{ gig.title }}</a>
+				</li>    			          
+			</ul>
+		</section>
+	</div> 
+	<div ui-view="list" class="span9 slide"></div>
+<!--</div> -->
+</div>

@@ -15,7 +15,7 @@
     </div>
 -->
 
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="navbar-header">
         <a class="navbar-brand" ui-sref="home">Rockatary Admin</a>
     </div>
@@ -24,7 +24,7 @@
         <li role="presentation" class="dropdown">
         	<a class="dropdown-toggle" data-toggle="dropdown" href="">Booking <span class="caret"></span></a>
         	<ul class="dropdown-menu" role="menu">
-        		<li><a ui-sref="events">Events</a></li>
+        		<li><a ui-sref="gigs">Gigs</a></li>
         	</ul>
         </li>
         <li><a ui-sref="login" ng-click="logout()">Logout</a></li>
@@ -32,7 +32,7 @@
 </nav>
 
 <!-- MAIN CONTENT -->
-<div class="container">
+<div class="container-fluid">
 
     <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
     <div ui-view></div>
