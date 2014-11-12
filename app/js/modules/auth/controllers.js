@@ -20,7 +20,7 @@ angular.module('Authentication')
 					$location.path('/');
 					console.log("SUCCESS!");
 				} else {
-					$scope.error = response.message;
+					$scope.error = "Login Failed!";
 					$scope.dataLoading = false;
 					console.log("FAILURE!");
 				}

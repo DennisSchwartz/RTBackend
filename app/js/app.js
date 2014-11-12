@@ -49,26 +49,31 @@ angular.module('BackendApp', [
 				url: '/list',
 				parent: 'common',
 				views: {
-					'list@gigs': {
+
+					'menu@': {
+						templateUrl: 'partials/modules/admin/gigs.menu.html',
+						controller: 'GigCtrl'	
+					},
+
+					'content@': {
 						templateUrl: 'partials/modules/admin/gigs.list.html',
 						controller: 'GigCtrl'
 					}
 				}
 			})
-			.state('gigs.detail', {
-				url: '/{gigId:[0-9]{1,4}}',
+			.state('gigs.details', {
+				url: '/details',
 				parent: 'common',
 				views: {
-					'': {
-						templateUrl: 'partials/modules/admin/gigs.detail.html',
-						controller: 'GigCtrl'
+
+					'menu@': {
+						templateUrl: 'partials/modules/admin/gigs.menu.html'
+					},
+
+					'content@': {
+						templateUrl: 'partials/modules/admin/gigs.details.html'
 					}
 				}
-			})
-			.state('booking.bands', {
-				url: '/bands',
-				templateUrl: 'partials/modules/admin/booking-bands.html',
-				controller: 'BookingCtrl'
 			});
 	}
 ])
