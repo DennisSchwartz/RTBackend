@@ -1,2 +1,41 @@
-Platzhalter für {{ title }}-Seite
-<p><a href="#/login" ng-click="logout()">Logout</a></a></p>
+<div class="container">
+	<h1>Willkommen!</h1>
+	<div class="row clearfix">
+		<div class="jumbotron col-sm-5 text-center">
+			<!-- News -->
+			Platzhalter für News!
+		</div>
+		<div class="col-sm-5">
+			<!-- Booking -->
+			<div class="panel panel-primary" ng-controller="GigCtrl">
+				<div class="panel-heading">
+					<h3 class="panel-title">Die nächsten Gigs:</h3>
+				</div>
+				<div class="panel-body">
+					<ul class="list-unstyled">
+						<li ng-repeat="gig in gigs | filter:query | orderBy:orderProp | limitTo:quantity">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<a ui-sref="gigs.details({gigId: gig.id})">{{ gig.termin }} - {{ gig.event2 }}</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<!-- Calendar -->
+		<div class="col-lg-10 text-center">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Kalender</h3>
+				</div>
+				<div class="panel-body" ng-controller="CalendarCtrl">
+					<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -9,6 +9,8 @@ angular.module('BackendApp', [
 	'Authentication',
 	'AdminSite',
 	'ui.router',
+	'ui.calendar',
+	'ui.bootstrap',
 	'ngCookies'
 ])
 
@@ -47,33 +49,16 @@ angular.module('BackendApp', [
 			})
 			.state('gigs.list', {
 				url: '/list',
-				parent: 'common',
-				views: {
-
-					'menu@': {
-						templateUrl: 'partials/modules/admin/gigs.menu.html',
-						controller: 'GigCtrl'	
-					},
-
-					'content@': {
-						templateUrl: 'partials/modules/admin/gigs.list.html',
-						controller: 'GigCtrl'
-					}
-				}
+				templateUrl: 'partials/modules/admin/gigs.list.html'
 			})
 			.state('gigs.details', {
-				url: '/details',
-				parent: 'common',
-				views: {
-
-					'menu@': {
-						templateUrl: 'partials/modules/admin/gigs.menu.html'
-					},
-
-					'content@': {
-						templateUrl: 'partials/modules/admin/gigs.details.html'
-					}
-				}
+				url: '/:gigId',
+				templateUrl: 'partials/modules/admin/gigs.details.html',
+				controller: 'DetailCtrl'
+				//controller: function ($scope, $stateParams) {
+				//	$scope.gig = {};
+				//	$scope.gig.name = $stateParams.gigId;
+				//}
 			});
 	}
 ])

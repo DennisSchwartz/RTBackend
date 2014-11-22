@@ -60,47 +60,10 @@ angular.module('Authentication')
 			$http.defaults.headers.common.Authorization = 'Basic';
 		};
 
+
 		return service;
 	}
 ])
-
-
-.factory('DatabaseService', ['$http',
-	function ($http) {
-		var serviceBase = 'api/';
-		var service = {};
-
-		service.getEvents = function () {
-			return $http.get(serviceBase + 'events');
-		};
-
-		service.getEvent = function (eventID) {
-			return $http.get(serviceBase + 'event?id=' + eventID);
-		};
-
-		service.insertEvent = function (event) {
-			return $http.post(serviceBase + 'insertEvent', event)
-				.then(function (results) {
-					return results;
-			});
-		};
-
-		service.updateEvent = function (id, event) {
-			return $http.post(serviceBase + 'updateEvent', {id:id, customer:customer})
-				.then(function (status) {
-					return status.data;
-				});
-		};
-
-		service.deleteEvent = function (id) {
-			return $http.post(serviceBase + 'deleteEvent?id=' + id)
-				.then(function (status) {
-					return status.data;
-				});
-		};
-
-	return service;
-}])
 
 
 .factory('Base64', function() {

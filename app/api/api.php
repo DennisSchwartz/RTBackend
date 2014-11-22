@@ -1,8 +1,12 @@
 <?php
 	//header("Access-Control-Allow-Origin: *");
 	require_once("Rest.inc.php");
+	ini_set('display_errors', 'On');
+	error_reporting(E_ALL);
 
 	class API extends REST {
+
+
 
 		public $data = "";
 
@@ -23,6 +27,7 @@
 		 */
 		private function dbConnect(){
 			$this->mysqli = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
+			$this->db = new PDO('mysql:host=localhost;dbname=43804m33994_1;charset=utf8', '43804m33994_1', '2012rock2009');
 		}
 		
 
@@ -65,6 +70,60 @@
 
 			$error = array('status' => "Failed", "msg" => "No name/password!");
 			$this->response($this->json($error), 400);
+		}
+
+
+		private function gigs() {
+			if($this->get_request_method() != "GET") {
+				$this->response('',406);
+			}
+
+			$query = "SELECT * FROM rt_booking WHERE terminpos > 20140000";
+			$stmt = $this->db->query($query);
+			if ($stmt->rowCount()) {
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$this->response($this->json($result), 200); //Send gigs
+			}
+			//$stmt = $this->mysqli->prepare($query);
+			//$stmt->execute();
+			//$result = array();
+			//$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+//
+			//if($r->num_rows > 0) {
+			//	$result = array();
+			//	while ($row = $r->fetch_assoc()) {
+			//		$result[] = $row;
+			//	}
+			//	//throw new Exception('TEST');
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//	//$result[] = $r->fetch_assoc();
+			//}
+			//No records found:
+			$error = array('status' => "Failed", "msg" => "No gigs found!");
+			$this->response($this->json($error), 400);
+		}
+
+		private function gig() {
+			if($this->get_request_method() != "GET") {
+				$this->response('',406);
+			}
+
+			$id = (int)$this->_request['id'];
+			if ($id > 0) {
+				$query = "SELECT * FROM rt_booking WHERE id = $id";
+				$stmt = $this->db->query($query);
+				if ($stmt->rowCount()) {
+					$result = $stmt->fetch(PDO::FETCH_ASSOC);
+					$this->response($this->json($result), 200); //Send gigs
+				}
+				$error = array('status' => "Failed", "msg" => "No gig with id $id!");
+				$this->response($this->json($error), 400);
+			}
 		}
 
 		/*

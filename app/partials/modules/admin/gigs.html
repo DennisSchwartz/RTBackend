@@ -1,8 +1,31 @@
 <div class="row">
-	<div class="col-lg-3">
-		<div ui-view="menu"></div>
+	<div class="col-lg-2">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Menü</h3>
+			</div>
+			<div class="pa-sidebar">
+				<ul class="nav nav-list nav-stacked">
+					<!--ng-class="{ active: $state.includes('gigs.list') }"-->
+					<li><a ui-sref=".list">All Gigs</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	<div class="col-lg-3">
-		<div ui-view="content"></div>
-	</div> 
+	<div class="col-lg-5">
+		<div ui-view></div>
+	</div>
+	<div class="col-lg-5">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Kalender</h3>
+			</div>
+			<div class="panel-body" ng-controller="CalendarCtrl">
+				<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+				<div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+					<h4>{{alertMessage}}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
