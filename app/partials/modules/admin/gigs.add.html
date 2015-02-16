@@ -1,0 +1,57 @@
+<div class="panel panel-primary">
+	<div ng-show="error" class="alert alert-danger">{{ error }}</div>
+	<div class="panel-heading">
+		<p class="panel-title">Neuer Gig</p>
+	</div>
+	<div class="panel-body">
+		<form name="addGig" class="form-horizontal" ng-submit="insertGig(gig)">
+			<fieldset>
+				<div class="form-group">
+					<label for="date" class="control-label col-lg-2">Datum:</label>
+					<div class="col-lg-4">
+						<input type="date" class="form-control" name="date" ng-model="gig.date" placeholder="yyyy-MM-dd" min="2008-01-01" max="2100-12-31" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="title" class="control-label col-lg-2">Titel:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="title" ng-model="gig.title" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="loc" class="control-label col-lg-2">Location:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="loc" ng-model="gig.loc" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="status" class="control-label col-lg-2">Status:</label>
+					<div class="col-lg-4">
+						<select class="form-control" id="status" ng-model="status">
+							<option>Angefragt</option>
+							<option>Gebucht</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="contact" class="control-label col-lg-2">Kontakt:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="contact" ng-model="gig.contact" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="notes" class="control-label col-lg-2">Info:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="notes" ng-model="gig.notes" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<button class="btn btn-default" ng-click="back()">Abbrechen</button>
+						<button type="submit" class="btn btn-primary">Speichern</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

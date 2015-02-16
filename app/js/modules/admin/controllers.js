@@ -68,10 +68,55 @@ angular.module('AdminSite')
                     $scope.error = "Error loading gig details!";
                 });
 
+            //Extraced Filter to use on arrays
+            //Filter out empty key-value pairs
+            $scope.filterEmpty = function(gig) {
+                var result = {};
+                angular.forEach(gig, function(value, key) {
+                    if (value && value != "" && value != " " && key != "terminpos" && key != "id") {
+                        switch(key) {
+                            case "event2":
+                                $scope.gigTitle = value;
+                                break;
+                            case "termin":
+                                $scope.gigTermin = value;
+                                break;
+                            case "location":
+                                $scope.gigLocation = value;
+                                break;
+                            case "bandtausch":
+                                key = "Austausch Gig";
+                                result[key] = value;
+                                break;
+                            case "kontakt":
+                                key = "Datum Erstkontakt";
+                                result[key] = value;
+                                break;
+                            case "status":
+                                key = "Status";
+                                result[key] = value;
+                                break;
+                            default:
+                                result[key] = value;
+                        }
+                    }
+                });
+                return result;
+            }
+
         }
     ])
     .controller('CalendarCtrl', ['$scope', '$compile', 'DatabaseService',
         function($scope, $compile, DatabaseService) {
+
+            $scope.date = new Date();
+
+            $scope.save = function (data) {
+                console.log(data);
+            };
+
+            /* &&&&&&& Dummy events for calendar &&&&&&& */
+            $scope.eventSources = DatabaseService.getEvents();
 
             /* config object */
             $scope.uiConfig = {
@@ -96,6 +141,7 @@ angular.module('AdminSite')
             };
 
 
+
             /* alert on eventClick */
             $scope.alertOnEventClick = function(date, jsEvent, view) {
                 $scope.alertMessage = (date.title + ' was clicked ');
@@ -109,18 +155,20 @@ angular.module('AdminSite')
                 $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
             };
 
-            /* add custom event*/
-            $scope.insertEvent = function(newEvent) {
-                DatabaseService.insertEvent(newEvent);
-                $scope.eventSources.events.push(newEvent);
+            /* add new gig*/
+            $scope.insertGig = function(newGig) {
+                DatabaseService.insertEvent(newGig);
+                $scope.eventSources.events.push(newGig);
             };
+            $scope.back = function() {
+                window.history.back();
+            }
             /* remove event */
             $scope.remove = function(index) {
                 $scope.events.splice(index, 1);
             };
 
-            /* &&&&&&& Dummy events for calendar &&&&&&& */
-            $scope.eventSources = DatabaseService.getEvents();
+
 
         }
     ]);

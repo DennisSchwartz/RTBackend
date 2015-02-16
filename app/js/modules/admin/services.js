@@ -18,6 +18,13 @@ angular.module('AdminSite')
 			return $http.get('api/gig?id=' + gigId);
 		};
 
+		service.insertGig = function(gig) {
+			return $http.post(serviceBase + 'insertGig', gig)
+				.then(function(results) {
+					return results;
+				});
+		};
+
 		service.getEvents = function() {
 			//return $http.get(serviceBase + 'events');
 

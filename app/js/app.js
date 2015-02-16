@@ -51,6 +51,11 @@ angular.module('BackendApp', [
 				url: '/list',
 				templateUrl: 'partials/modules/admin/gigs.list.html'
 			})
+			.state('gigs.add', {
+				url: '/add',
+				templateUrl: 'partials/modules/admin/gigs.add.html',
+				controller: 'CalendarCtrl'
+			})
 			.state('gigs.details', {
 				url: '/:gigId',
 				templateUrl: 'partials/modules/admin/gigs.details.html',

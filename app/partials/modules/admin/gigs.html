@@ -2,7 +2,7 @@
 	<div class="col-lg-2">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title">Menü</h3>
+				<p class="panel-title">Menü</p>
 			</div>
 			<div class="pa-sidebar">
 				<ul class="nav nav-list nav-stacked">
@@ -17,8 +17,9 @@
 	</div>
 	<div class="col-lg-5">
 		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Kalender</h3>
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title pull-left">Kalender</h3>
+				<a ui-sref=".add" class="btn btn-default btn-xs pull-right">Neuer Gig</a>
 			</div>
 			<div class="panel-body" ng-controller="CalendarCtrl">
 				<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>

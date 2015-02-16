@@ -1,18 +1,39 @@
-<div>
-  <h2>{{gig.id}}</h2>
+<div class="panel panel-primary">
   <div ng-show="error" class="alert alert-danger">{{ error }}</div>
-  <ul>
-    <li ng-repeat="(key, value) in gig">
-      <p>{{key}}, {{value}}</p>
-      <!-- Here's another ui-sref except THIS time we are passing parameters
-           AND inheriting parameters from active ancestor states. So we don't
-           need to resupply the contactId parameter. -->
-      <!--<a ui-sref="contacts.detail.item({itemId:item.id})">{{item.type}}</a>-->
-    </li>
-  </ul>
+  <div class="panel-heading">
+    <p class="panel-title">Details</p>
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      <!-- <li class="well well-sm" ng-repeat="(key, value) in filterEmpty(gig)">
+        <p>{{key}}: {{value}}</p>
+        Here's another ui-sref except THIS time we are passing parameters
+        AND inheriting parameters from active ancestor states. So we don't
+        need to resupply the contactId parameter. -->
+        <!--<a ui-sref="contacts.detail.item({itemId:item.id})">{{item.type}}</a>
+      </li> -->
+      <li>
+        <h1> {{gigTitle}} <h1>
+      </li>
+      <li>
+        <h3> {{gigTermin}} <h3>
+      </li>
+      <li>
+        <h3> {{gigLocation}} <h3>
+      </li>
+    </ul>
+    <table class="table table-striped table-hover ">
+      <tbody>
+        <tr ng-repeat="(key, value) in filterEmpty(gig)">
+          <td>{{ key }}</td>
+          <td>{{ value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <!-- <div ui-view class="slide">
-    <!-- Example of default content. This content will be replace as soon as
-         this ui-view is populate with a template 
+    <! Example of default content. This content will be replace as soon as
+    this ui-view is populate with a template
     <small class="muted">Click on a gig item to view and/or edit it.</small>
   </div> -->
 </div>
